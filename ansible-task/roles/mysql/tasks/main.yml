@@ -1,0 +1,24 @@
+---
+# tasks file for mysql
+- name: Install and configure MariaDB on Debian
+  block:
+    - name: Install Mysql for Debian (mariaDb)
+      ansible.builtin.apt:
+        name: mariadb-server
+        state: present
+        update_cache: yes
+      
+    - name: Ensure MySQL is started and enabled
+      ansible.builtin.service:
+        name: mysql
+        state: started
+        enabled: yes
+  when: ansible_os_family == "Debian"
+  rescue: 
+    - name: "send email on fail "
+      ansible.builtin.mail:
+        to: yoossef11gaber10@gmail.com
+        subject: "faild to istall mysql and start the service"
+        body: "faild to do taske {{ ansible_failed_task.name }}"
+  
+  

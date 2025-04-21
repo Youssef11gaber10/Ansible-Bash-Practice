@@ -1,0 +1,7 @@
+---
+# vars file for php
+php_packages:
+  - php
+  - php-mysql
+  - libapache2-mod-php
+  - php-cli

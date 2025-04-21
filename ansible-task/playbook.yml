@@ -1,0 +1,8 @@
+- name: Use PlayBook To Run The (lamp stack on all servers)
+  hosts: all
+  become: yes
+  roles:
+    - apache
+    - mysql
+    - php
+    - ufw

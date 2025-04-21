@@ -1,0 +1,32 @@
+---
+# tasks file for apache
+- name : Install apache on debian
+  block:
+    - name: Install Apache server
+      ansible.builtin.apt:
+        name: apache2
+        state: present
+        update_cache: yes
+    - name: Start Apache service
+      ansible.builtin.service:
+        name: apache2
+        state: started
+        enabled: yes
+  when: ansible_os_family == "Debian"
+  rescue:
+    - name: Send mail on fail
+      ansible.builtin.mail:
+          to: yoossef11gaber10@gmail.com
+          subject: "Apache installation failed"
+          body: "The Apache installation failed on {{ ansible_failed_task.name }}. Please check the logs for more details."
+
+
+
+- name: Create a custom index.php file
+  template:
+    src: index.php
+    dest: /var/www/html/index.php
+  notify: restart apache
+# you need to access the file using the browser with http://<your_ip>/index.php or ip:80 port 80 is default for http service and port 443 for https
+ 
+ 

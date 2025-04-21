@@ -1,0 +1,3 @@
+---
+# defaults file for mysql
+ansible_become_password: youssef11egypt10 

@@ -1,0 +1,23 @@
+---
+# tasks file for php
+- name: Install and configure PHP with Apache
+  block:
+    - name: Install PHP and required extensions
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - "{{php_packages}}"
+    - name: Ensure Apache is restarted
+      ansible.builtin.service:
+        name: apache2
+        state: restarted
+        enabled: yes
+  when: ansible_os_family == "Debian"
+  rescue:
+    - name: Send mail on fail
+      ansible.builtin.mail:
+        to: yoossef11gaber10@gmail.com
+        subject: "PHP installation failed"
+        body: "The PHP installation failed on {{ ansible_failed_task.name }}. Please check the logs for more details."
